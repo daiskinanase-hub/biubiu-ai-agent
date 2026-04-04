@@ -1,0 +1,100 @@
+spring:
+  application:
+    name: yu-ai-agent
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    # 数据库密码：请输入你的数据库密码
+    password: ${DB_PASSWORD:请输入你的数据库密码}
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      connection-timeout: 30000
+  ai:
+    dashscope:
+      # DashScope API Key：请输入你的 DashScope API Key
+      # 获取地址：https://dashscope.console.aliyun.com/apiKey
+      api-key: ${DASHSCOPE_API_KEY:请输入你的 DashScope API Key}
+      chat:
+        options:
+          model: qwen3-max
+#    # 轻量级模型配置（用于内容提取等简单任务，节省成本）
+#    ollama:
+#      base-url: http://localhost:11434
+#      chat:
+#        model: qwen2.5:7b
+    # MCP 客户端配置 - SSE 模式
+    # 注意：使用 SSE 模式前，需要先启动 MCP SSE 服务器（yu-image-search-mcp-server）
+#    mcp:
+#      client:
+#        request-timeout: 60s
+#        # SSE 模式配置
+#        sse:
+#          connections:
+#            image-search-server:
+#              url: http://localhost:8127
+        # STDIO 模式已禁用（如需使用，请取消下面注释）
+        # stdio:
+        #   servers-configuration: classpath:mcp-servers.json
+# 临时注释掉，便于大家开发调试和部署（实际需要启动 PgVector 数据库）
+#    vectorstore:
+#      pgvector:
+#        index-type: HNSW
+#        dimensions: 1536
+#        distance-type: COSINE_DISTANCE
+#        max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
+server:
+  port: 8123
+  servlet:
+    context-path: /api
+# springdoc-openapi config
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.yupi.yuaiagent.controller
+# knife4j config
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+# 博查AI Web Search API 配置
+# 获取 API Key: https://open.bocha.cn
+bocha:
+  # 博查AI API Key：请输入你的博查AI API Key
+  api-key: ${BOCHA_API_KEY:请输入你的博查AI API Key}
+
+# 内容提取服务配置（可选，用于降低内容提取成本）
+# 支持以下方式：
+# 1. 使用 Ollama 本地模型（完全免费）：
+#    - 安装 Ollama: https://ollama.com
+#    - 运行: ollama pull qwen2.5:7b
+#    - 取消下面 ollama 配置注释
+#
+# 2. 使用硅基流动 SiliconFlow（低成本 API）：
+#    - 注册: https://siliconflow.cn
+#    - 获取 API Key
+#    - 参考 siliconflow 配置示例
+#
+# 3. 使用阿里 DashScope（已有配置）：
+#    - 使用 qwen-turbo 等轻量级模型
+#    - 修改 dashscope 配置中的 model
+content-extraction:
+  # 是否启用内容提取（默认启用）
+  enabled: true
+  # 内容提取使用的模型类型: dashscope | ollama | siliconflow
+  provider: dashscope
+  # 轻量级模型名称（如果使用 ollama，则使用 ollama 的模型名）
+  model: qwen-turbo
+
+# 修改日志级别，查看 Spring AI 更多调用细节
+logging:
+  level:
+    org.springframework.ai: DEBUG
+    com.yupi.yuaiagent: DEBUG

@@ -1,0 +1,23 @@
+# Maven 构建产物（上传到服务器后由 Dockerfile 内重新构建）
+target/
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# 环境变量
+.env
+.env.*
+
+# 日志
+*.log
+logs/
+
+# macOS / Windows
+.DS_Store
+Thumbs.db
