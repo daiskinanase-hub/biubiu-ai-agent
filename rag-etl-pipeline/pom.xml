@@ -70,6 +70,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <!-- AOP支持：用于性能日志切面 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!-- Actuator：健康检查和监控 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
         <!-- Maven Central 上 1.1.2.x 以模型拆分的 starter 发布，DashScope（通义）请使用此构件 -->
         <dependency>

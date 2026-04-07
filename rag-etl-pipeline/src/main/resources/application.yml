@@ -9,11 +9,22 @@ spring:
 
   application:
     name: rag-etl-pipeline
+
+  # 日志配置
+  logging:
+    pattern:
+      console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{traceId:-}] %-5level %logger{36} - %msg%n"
+    level:
+      root: INFO
+      com.example.rag: DEBUG
+      com.example.rag.aop: DEBUG
+
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     # 数据库密码：请输入你的数据库密码
     password: ${DB_PASSWORD:请输入你的数据库密码}
+
   ai:
     dashscope:
       # DashScope API Key：请输入你的 DashScope API Key
@@ -31,6 +42,21 @@ spring:
         distance-type: COSINE_DISTANCE
         dimensions: 1536
         initialize-schema: false
+
+# 应用配置
+app:
+  # 调试模式：生产环境应关闭
+  debug-mode: ${APP_DEBUG_MODE:false}
+
+# 管理端点配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
 
 # 百炼 DataCenter 文档解析（与 DashScope API Key 配合，路径同官方 LlamaIndex 阅读器）
 rag:
